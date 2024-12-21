@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/supabase/client";
 
@@ -32,11 +32,25 @@ export default function LoginPage() {
 
         if (roleError || roleData.role !== "admin") {
             setError("You do not have access to this dashboard.");
+            await supabase.auth.signOut(); // Clear session if unauthorized
             return;
         }
 
         router.push("/dashboard");
     };
+
+    useEffect(() => {
+        const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
+            if (event === "SIGNED_OUT" || !session) {
+                // Redirect to login when the session expires
+                router.push("/login");
+            }
+        });
+
+        return () => {
+            subscription?.subscription.unsubscribe(); // Safely unsubscribe on cleanup
+        };
+    }, [supabase, router]);
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
