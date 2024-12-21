@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/supabase/client"; // Import createClient
 import Navigation from "@/components/Dashboard/Structure/Navigation";
 import HeaderBar from "@/components/Dashboard/Structure/HeaderBar";
 import { motion } from "framer-motion";
@@ -8,11 +10,36 @@ import { motion } from "framer-motion";
 const DashboardPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState<string>("Dashboard"); // Default to "Dashboard"
+    const [isLoading, setIsLoading] = useState(true);
+    const supabase = createClient(); // Instantiate Supabase client
+    const router = useRouter();
+
+    useEffect(() => {
+        const checkSession = async () => {
+            const { data, error } = await supabase.auth.getSession();
+
+            if (error || !data.session) {
+                router.push("/login"); // Redirect to login if not authenticated
+            } else {
+                setIsLoading(false); // Stop loading when authenticated
+            }
+        };
+
+        checkSession();
+    }, [supabase, router]);
 
     // Function to update the current page
     const handleSetCurrentPage = (page: string) => {
         setCurrentPage(page); // Dynamically update the current page title
     };
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-black text-white">
+                Loading...
+            </div>
+        );
+    }
 
     return (
         <main className="w-full min-h-[100vh] h-full flex flex-row relative bg-black overflow-y-scroll scrollbar-hidden">
@@ -38,6 +65,15 @@ const DashboardPage = () => {
                     <div className="flex justify-between items-center">
                         <h1 className="text-4xl text-neutral-200">{currentPage}</h1>
                     </div>
+                    <button
+                        onClick={async () => {
+                            await supabase.auth.signOut();
+                            router.push("/login");
+                        }}
+                        className="bg-red-500 text-white px-4 py-2 rounded"
+                    >
+                        Logout
+                    </button>
                 </div>
             </motion.section>
         </main>
