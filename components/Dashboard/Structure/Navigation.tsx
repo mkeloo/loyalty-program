@@ -208,7 +208,7 @@ const Navigation = ({
                         >
                             <PanelRightClose
                                 strokeWidth={2}
-                                className="w-6 h-6 stroke-gray-300 hover:stroke-neutral-100"
+                                className="w-6 h-6 stroke-gray-300 hover:stroke-neutral-100 active:scale-110"
                             />
                         </motion.span>
                     </button>
@@ -226,7 +226,7 @@ const Navigation = ({
                                     handleNavigationClick(link.name); // Navigate to the parent link
                                 }}
                             >
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 active:scale-110 duration-200 transition-transform">
                                     {link.icon}
                                     {isOpen && <span className="truncate">{link.name}</span>}
                                 </div>
@@ -265,7 +265,7 @@ const Navigation = ({
                                                 // setOpenDropdown(null); // Close dropdown on sublink click
                                             }}
                                         >
-                                            <div className="flex items-center gap-3">
+                                            <div className="flex items-center gap-3 active:scale-110 duration-200 transition-transform">
                                                 {subLink.icon} {/* Render the sub-link icon */}
                                                 <span>{subLink.name}</span>
                                             </div>

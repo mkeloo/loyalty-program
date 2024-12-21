@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/supabase/client"; // Import createClient
+import { createClient } from "@/supabase/client";
 import Navigation from "@/components/Dashboard/Structure/Navigation";
 import HeaderBar from "@/components/Dashboard/Structure/HeaderBar";
 import { motion } from "framer-motion";
@@ -11,7 +11,7 @@ const DashboardPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState<string>("Dashboard"); // Default to "Dashboard"
     const [isLoading, setIsLoading] = useState(true);
-    const supabase = createClient(); // Instantiate Supabase client
+    const supabase = createClient();
     const router = useRouter();
 
     useEffect(() => {
@@ -65,15 +65,6 @@ const DashboardPage = () => {
                     <div className="flex justify-between items-center">
                         <h1 className="text-4xl text-neutral-200">{currentPage}</h1>
                     </div>
-                    <button
-                        onClick={async () => {
-                            await supabase.auth.signOut();
-                            router.push("/login");
-                        }}
-                        className="bg-red-500 text-white px-4 py-2 rounded"
-                    >
-                        Logout
-                    </button>
                 </div>
             </motion.section>
         </main>
