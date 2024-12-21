@@ -2,19 +2,14 @@
 import React, { useEffect, useState } from "react";
 import {
     ArrowRight,
+    CheckCheck,
+    Radiation,
     PanelRightClose,
-    ChartArea,
-    SquareStack,
-    LayoutList,
-    FileText,
-    PackageSearch,
+    Home,
+    Megaphone,
     Users,
-    ChartSpline,
-    ArchiveRestore,
-    FilePlus,
-    Layers,
-    Factory,
-    FileClock,
+    Clock,
+    Settings,
 } from "lucide-react";
 import { motion, useAnimationControls, AnimatePresence } from "framer-motion";
 import ProjectLink from "./ProjectLink";
@@ -106,69 +101,37 @@ const Navigation = ({
 
     const navigationLinks = [
         {
-            name: "Dashboard",
-            icon: <ChartArea strokeWidth={2} className="min-w-8 w-8" />,
+            name: "Home",
+            icon: <Home strokeWidth={2} className="min-w-8 w-8" />,
         },
         {
-            name: "Projects",
-            icon: <SquareStack strokeWidth={2} className="min-w-8 w-8" />,
+            name: "Campaigns",
+            icon: <Megaphone strokeWidth={2} className="min-w-8 w-8" />,
             subLinks: [
-                {
-                    name: "Active Projects",
-                    icon: <ChartSpline strokeWidth={2} className="w-5 h-5" />,
-                },
-                {
-                    name: "Past Projects",
-                    icon: <ArchiveRestore strokeWidth={2} className=" w-5 h-5" />,
-                },
-                {
-                    name: "Create New",
-                    icon: <FilePlus strokeWidth={2} className=" w-5 h-5" />,
-                },
+                { name: "Active", icon: <Radiation strokeWidth={2} className="w-5 h-5" /> },
+                { name: "Completed", icon: <CheckCheck strokeWidth={2} className="w-5 h-5" /> },
             ],
         },
         {
-            name: "Categories",
-            icon: <LayoutList strokeWidth={2} className=" min-w-8 w-8" />,
+            name: "Members",
+            icon: <Users strokeWidth={2} className="min-w-8 w-8" />,
         },
         {
-            name: "Subcategories",
-            icon: <FileText strokeWidth={2} className=" min-w-8 w-8" />,
+            name: "Activity",
+            icon: <Clock strokeWidth={2} className="min-w-8 w-8" />,
         },
         {
-            name: "Products",
-            icon: <FileText strokeWidth={2} className=" min-w-8 w-8" />,
-        },
-        {
-            name: "Inventory",
-            icon: <PackageSearch strokeWidth={2} className=" min-w-8 w-8" />,
-            subLinks: [
-                {
-                    name: "Stock Levels",
-                    icon: <Layers strokeWidth={2} className=" w-5 h-5" />,
-                },
-                {
-                    name: "Suppliers",
-                    icon: <Factory strokeWidth={2} className=" w-5 h-5" />,
-                },
-                {
-                    name: "Order History",
-                    icon: <FileClock strokeWidth={2} className=" w-5 h-5" />,
-                },
-            ],
-        },
-        {
-            name: "Users",
-            icon: <Users strokeWidth={2} className=" min-w-8 w-8" />,
+            name: "Settings",
+            icon: <Settings strokeWidth={2} className="min-w-8 w-8" />,
         },
     ];
 
-    const projectLinks = [
-        { name: "Virtual Reality", color: "bg-pink-700 border-pink-600" },
-        { name: "Apple Vision Pro", color: "bg-indigo-700 border-indigo-600" },
-        { name: "Augmented Reality", color: "bg-emerald-700 border-emerald-600" },
-        { name: "AI Labs", color: "bg-lime-500 border-lime-200" },
-    ];
+    // const projectLinks = [
+    //     { name: "Virtual Reality", color: "bg-pink-700 border-pink-600" },
+    //     { name: "Apple Vision Pro", color: "bg-indigo-700 border-indigo-600" },
+    //     { name: "Augmented Reality", color: "bg-emerald-700 border-emerald-600" },
+    //     { name: "AI Labs", color: "bg-lime-500 border-lime-200" },
+    // ];
 
     useEffect(() => {
         if (isOpen) {
@@ -193,10 +156,17 @@ const Navigation = ({
             setIsOpen(true);
             setIsSidebarOpen(true); // Open the sidebar
         }
+
+        // If the clicked link has sub-links and is already active, toggle the dropdown
+        if (page === openDropdown) {
+            setOpenDropdown(null); // Close the dropdown if it's open
+        } else {
+            setOpenDropdown(page); // Open the dropdown for this page
+        }
+
         setActiveLink(page); // Update the active link
-        setCurrentPage(page); // Update the current page in the main content
         setSelectedProject(null); // Close the second sidebar
-        setOpenDropdown(null); // Close any open dropdown
+        setCurrentPage(page); // Update the current page in the main content
     };
 
     const toggleDropdown = (name: string) => {
@@ -204,7 +174,7 @@ const Navigation = ({
             setIsOpen(true); // Open the sidebar if closed
             setIsSidebarOpen(true);
         }
-        setOpenDropdown((prev) => (prev === name ? null : name));
+        setOpenDropdown((prev) => (prev === name ? null : name)); // Toggle dropdown state
     };
 
     const handleSubLinkClick = (name: string) => {
@@ -223,22 +193,22 @@ const Navigation = ({
             >
 
                 <div className="w-full flex flex-row justify-between place-items-center">
-                    {isOpen && (
+                    {/* {isOpen && (
                         <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-700 rounded-full" />
-                    )}
+                    )} */}
                     <button
-                        className="p-1 rounded-full flex"
+                        className="bg-slate-800 p-1.5 rounded-lg flex shadow-xl"
                         onClick={handleOpenClose}
                     >
                         <motion.span
                             variants={svgVariants}
                             animate={svgControls}
                             initial="close"
-                            className="flex items-center"
+                            className="flex items-center "
                         >
                             <PanelRightClose
                                 strokeWidth={2}
-                                className="w-6 h-6 stroke-slate-400 hover:stroke-neutral-100"
+                                className="w-6 h-6 stroke-gray-300 hover:stroke-neutral-100"
                             />
                         </motion.span>
                     </button>
@@ -249,15 +219,11 @@ const Navigation = ({
                     {navigationLinks.map((link) => (
                         <div key={link.name} className="flex flex-col">
                             <div
-                                className={`flex items-center justify-between ${activeLink === link.name ? "bg-blue-950 text-cyan-400 font-bold" : "text-neutral-400"
-                                    } p-2 rounded-lg cursor-pointer hover:text-white hover:bg-neutral-700/30`}
+                                className={`flex items-center justify-between ${activeLink === link.name ? "bg-blue-950 text-cyan-400 font-bold" : "text-neutral-200"
+                                    } p-2 rounded-lg cursor-pointer hover:text-white hover:bg-cyan-500`}
                                 onClick={(e) => {
                                     e.stopPropagation(); // Prevent bubbling
                                     handleNavigationClick(link.name); // Navigate to the parent link
-                                    if (link.subLinks) {
-                                        // Toggle the dropdown logic
-                                        setOpenDropdown((prev) => (prev === link.name ? null : link.name));
-                                    }
                                 }}
                             >
                                 <div className="flex items-center gap-3">
@@ -274,8 +240,7 @@ const Navigation = ({
                                     >
                                         <ArrowRight
                                             strokeWidth={2}
-                                            className={`w-4 h-4 ${openDropdown === link.name ? "rotate-90" : ""
-                                                } transition-transform`}
+                                            className="w-4 h-4 rotate-90 transition-transform"
                                         />
                                     </motion.div>
                                 )}
@@ -313,7 +278,7 @@ const Navigation = ({
                 </div>
 
                 {/* Project Links */}
-                <div className="flex flex-col gap-3">
+                {/* <div className="flex flex-col gap-3">
                     {projectLinks.map((project) => (
                         <ProjectLink
                             key={project.name}
@@ -330,7 +295,7 @@ const Navigation = ({
                             />
                         </ProjectLink>
                     ))}
-                </div>
+                </div> */}
             </motion.nav>
 
             <AnimatePresence>

@@ -29,7 +29,7 @@ const HeaderBar = () => {
     }, []);
 
     return (
-        <div className="w-full flex items-center justify-between bg-gray-900 text-white px-4 py-2 shadow-md">
+        <div className="w-full flex items-center justify-between bg-gray-900 text-white px-4 py-3 shadow-md">
             {/* Left: Welcome Message */}
             <div className="text-lg">Welcome admin</div>
 
@@ -48,7 +48,7 @@ const HeaderBar = () => {
                 <Popover>
                     <PopoverTrigger asChild>
                         <span className="p-2.5 flex items-center justify-center rounded-full bg-neutral-600 cursor-pointer">
-                            <User className="w-6 h-6 text-gray-300" />
+                            <User className="w-5 h-5 text-gray-300" />
                         </span>
                     </PopoverTrigger>
                     <PopoverContent className="flex flex-col items-start justify-center p-4 bg-neutral-800 text-white rounded-lg shadow-lg space-y-2 max-w-fit mx-4">
