@@ -10,6 +10,7 @@ import {
     Users,
     Clock,
     Settings,
+    Gift,
 } from "lucide-react";
 import { motion, useAnimationControls, AnimatePresence } from "framer-motion";
 import ProjectLink from "./ProjectLink";
@@ -103,6 +104,10 @@ const Navigation = ({
         {
             name: "Home",
             icon: <Home strokeWidth={2} className="min-w-8 w-8" />,
+        },
+        {
+            name: "Rewards", // New link for rewards
+            icon: <Gift strokeWidth={2} className="min-w-8 w-8" />, // Use a gift icon
         },
         {
             name: "Campaigns",
