@@ -7,6 +7,7 @@ import Navigation from "@/components/Dashboard/Structure/Navigation";
 import HeaderBar from "@/components/Dashboard/Structure/HeaderBar";
 import { motion } from "framer-motion";
 import RewardsPage from "@/components/Dashboard/Pages/RewardsPage";
+import MemberTiersPage from "@/components/Dashboard/Pages/MemberTiersPage";
 
 const DashboardPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -63,12 +64,13 @@ const DashboardPage = () => {
             >
                 <HeaderBar />
                 <div className="flex flex-col px-10 py-5 gap-5">
-                    <div className="flex justify-between items-center">
+                    {/* <div className="flex justify-between items-center">
                         <h1 className="text-4xl text-neutral-200">{currentPage}</h1>
-                    </div>
+                    </div> */}
                     <div>
                         {/* Render dynamic page content based on `currentPage` */}
                         {currentPage === "Rewards" && <RewardsPage />}
+                        {currentPage === "Member Tiers" && <MemberTiersPage />}
                         {currentPage === "Home" && <p>Welcome to the Dashboard!</p>}
                         {/* Add other pages as needed */}
                     </div>

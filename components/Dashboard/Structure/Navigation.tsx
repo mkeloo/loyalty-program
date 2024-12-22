@@ -11,6 +11,7 @@ import {
     Clock,
     Settings,
     Gift,
+    Sparkles,
 } from "lucide-react";
 import { motion, useAnimationControls, AnimatePresence } from "framer-motion";
 import ProjectLink from "./ProjectLink";
@@ -106,8 +107,12 @@ const Navigation = ({
             icon: <Home strokeWidth={2} className="min-w-8 w-8" />,
         },
         {
-            name: "Rewards", // New link for rewards
-            icon: <Gift strokeWidth={2} className="min-w-8 w-8" />, // Use a gift icon
+            name: "Rewards",
+            icon: <Gift strokeWidth={2} className="min-w-8 w-8" />,
+        },
+        {
+            name: "Member Tiers",
+            icon: <Sparkles strokeWidth={2} className="min-w-8 w-8" />,
         },
         {
             name: "Campaigns",

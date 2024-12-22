@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Reward } from "@/lib/types";
 import { fetchRewards, addReward, updateReward } from "@/supabase/api/rewardsApi";
 import { DialogTitle } from "@/components/ui/dialog"; // Import DialogTitle for Sheet
-import {
-
-    SheetClose,
-} from "@/components/ui/sheet";
+import { SheetClose } from "@/components/ui/sheet";
 
 interface RewardFormProps {
     reward?: Reward | null; // Optional for editing
@@ -71,12 +68,16 @@ const RewardForm: React.FC<RewardFormProps> = ({ reward, onClose, onSave }) => {
                         Cancel
                     </button>
                 </SheetClose>
-                <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                    Save
-                </button>
+                <SheetClose asChild>
+                    <button
+                        type="submit"
+                        onClick={onClose}
+                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    >
+                        Save
+                    </button>
+                </SheetClose>
+
             </div>
         </form>
     );

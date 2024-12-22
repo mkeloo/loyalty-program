@@ -5,7 +5,7 @@ import { fetchRewards, deleteReward } from "@/supabase/api/rewardsApi";
 import { Reward } from "@/lib/types";
 import { Sheet, SheetContent, SheetTrigger, SheetDescription, } from "@/components/ui/sheet";
 import { Dialog, DialogTrigger, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
-import RewardForm from "@/components/Dashboard/Pages/RewardForm";
+import RewardForm from "@/components/Dashboard/Pages/Forms/RewardForm";
 
 const RewardsPage = () => {
     const [rewards, setRewards] = useState<Reward[]>([]);
@@ -118,7 +118,7 @@ const RewardsPage = () => {
                                     <SheetTrigger>
                                         <div
                                             onClick={() => setSelectedReward(reward)}
-                                            className="bg-yellow-500 text-black px-3 py-1 rounded hover:bg-yellow-600 transition"
+                                            className="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600 transition"
                                         >
                                             Edit
                                         </div>
@@ -140,12 +140,12 @@ const RewardsPage = () => {
                                     {/* Delete Button */}
                                     <Dialog>
                                         <DialogTrigger>
-                                            <button
+                                            <div
                                                 onClick={() => setRewardToDelete(reward)}
-                                                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                                                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
                                             >
                                                 Delete
-                                            </button>
+                                            </div>
                                         </DialogTrigger>
                                         <DialogContent>
                                             <DialogHeader>
@@ -165,12 +165,15 @@ const RewardsPage = () => {
                                                         Cancel
                                                     </button>
                                                 </DialogClose>
-                                                <button
-                                                    onClick={handleDelete}
-                                                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                                                >
-                                                    Delete
-                                                </button>
+                                                <DialogClose asChild>
+                                                    <button
+                                                        onClick={handleDelete}
+                                                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </DialogClose>
+
                                             </DialogFooter>
                                         </DialogContent>
                                     </Dialog>
