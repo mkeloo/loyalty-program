@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { fetchRewards } from "@/supabase/api/rewardsApi";
+import { fetchRewards, deleteReward } from "@/supabase/api/rewardsApi";
 import { Reward } from "@/lib/types";
-import { Sheet, SheetContent, SheetTrigger, SheetDescription } from "@/components/ui/sheet"; // ShadCN Sheet
+import { Sheet, SheetContent, SheetTrigger, SheetDescription, } from "@/components/ui/sheet";
+import { Dialog, DialogTrigger, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
 import RewardForm from "@/components/Dashboard/Pages/RewardForm";
 
 const RewardsPage = () => {
@@ -11,6 +12,8 @@ const RewardsPage = () => {
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [selectedReward, setSelectedReward] = useState<Reward | null>(null); // For editing rewards
+    const [rewardToDelete, setRewardToDelete] = useState<Reward | null>(null); // For delete confirmation
+
 
     // Fetch rewards from the backend
     const getRewards = async () => {
@@ -24,6 +27,18 @@ const RewardsPage = () => {
             setIsLoading(false);
         }
     };
+
+    const handleDelete = async () => {
+        if (!rewardToDelete) return;
+        try {
+            await deleteReward(rewardToDelete.id);
+            setRewardToDelete(null); // Reset the reward to delete
+            getRewards(); // Refresh the rewards list
+        } catch (err) {
+            console.error("Error deleting reward:", err);
+        }
+    };
+
 
     useEffect(() => {
         getRewards();
@@ -97,7 +112,7 @@ const RewardsPage = () => {
                         >
                             <td className="border border-gray-600 p-2">{reward.reward_name}</td>
                             <td className="border border-gray-600 p-2">{reward.point_value}</td>
-                            <td className="border border-gray-600 p-2">
+                            <td className="border border-gray-600 p-2 space-x-2">
                                 {/* Edit Button */}
                                 <Sheet>
                                     <SheetTrigger>
@@ -122,6 +137,43 @@ const RewardsPage = () => {
                                             }}
                                         />
                                     </SheetContent>
+                                    {/* Delete Button */}
+                                    <Dialog>
+                                        <DialogTrigger>
+                                            <button
+                                                onClick={() => setRewardToDelete(reward)}
+                                                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                                            >
+                                                Delete
+                                            </button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>Confirm Delete</DialogTitle>
+                                                <DialogDescription>
+                                                    Are you sure you want to delete the reward{" "}
+                                                    <strong>{rewardToDelete?.reward_name}</strong>? This action cannot be
+                                                    undone.
+                                                </DialogDescription>
+                                            </DialogHeader>
+                                            <DialogFooter>
+                                                <DialogClose asChild>
+                                                    <button
+                                                        onClick={() => setRewardToDelete(null)}
+                                                        className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700"
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </DialogClose>
+                                                <button
+                                                    onClick={handleDelete}
+                                                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
                                 </Sheet>
                             </td>
                         </tr>
